@@ -21,7 +21,7 @@ stages:
     - task: NuGetAuthenticate@0
       displayName: 'NuGet Authenticate'
       inputs:
-        nuGetServiceConnections: 'econworm'
+        nuGetServiceConnections: 'Econworm'
 
     - task: NuGetCommand@2
       displayName: 'NuGet push'
