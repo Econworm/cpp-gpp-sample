@@ -6,10 +6,26 @@
 trigger:
 - master
 
-pool:
-  vmImage: ubuntu-latest
+stages:
+- stage: buiild
+  jobs:
+  - job: run_build
+    pool:
+      vmImage: ubuntu-latest
 
-steps:
-- script: |
-    make
-  displayName: 'make'
+    steps:
+    - script: |
+        make
+      displayName: 'make'
+
+    - task: NuGetAuthenticate@0
+      displayName: 'NuGet Authenticate'
+      inputs:
+        nuGetServiceConnections: 'econworm/zyhnuget'
+
+    - task: NuGetCommand@2
+      displayName: 'NuGet push'
+      inputs:
+        command: push
+        publishVstsFeed: 'econworm/zyhnuget'
+        allowPackageConflicts: true
